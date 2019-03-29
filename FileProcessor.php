@@ -188,8 +188,8 @@ class FileProcessor {
 
 
     // ****************************************************************
-    // method for getting the average price, total quantity,
-    // average profit margin, and total profit USD.
+    // method for getting the average cost, average price,
+    // total quantity, average profit margin, and total profit
     // stats are returned as an array
     // ****************************************************************
     private function setStats() {
@@ -216,7 +216,7 @@ class FileProcessor {
             }
 
             // convert currency for cost and price
-            if($this->currency == 'CAD') {
+            if($this->currency !== 'USD') {
                 $cost = round($this->convCurrency($check_cost),2);
                 $price = round($this->convCurrency($check_price),2);
                 $qty = round($this->convCurrency($check_qty),2);
