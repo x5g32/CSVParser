@@ -163,7 +163,7 @@ class FileProcessor {
         $access_key = '516607d6152d4eebecb8f18bdbb5c09c';
 
         $from = 'USD';
-        $to = 'CAD';
+        $to = $this->currency;
         $amount = $value;
 
         // initialize CURL:
@@ -340,18 +340,30 @@ class FileProcessor {
             if($rowid !== 0) {
 
                 // get and validate some info from the current row
-                $cost = $row[$this->costID];
-                $price = $row[$this->priceID];
-                $qty = $row[$this->qtyID];
+                $check_cost = $row[$this->costID];
+                $check_price = $row[$this->priceID];
+                $check_qty = $row[$this->qtyID];
 
-                if(!is_numeric($cost)) {
-                    $cost = 0;
+                if(!is_numeric($check_cost)) {
+                    $check_cost = 0;
                 }
-                if(!is_numeric($price)) {
-                    $price = 0;
+                if(!is_numeric($check_price)) {
+                    $check_price = 0;
                 }
-                if(!is_numeric($qty)) {
+                if(!is_numeric($check_qty)) {
                     $qty = 0;
+                } else {
+                    $qty = $check_qty;
+                }
+
+                if($this->currency !== 'USD') {
+                    $convert_cost = $this->convCurrency($check_cost);
+                    $convert_price = $this->convCurrency($check_price);
+                    $cost = $convert_cost;
+                    $price = $convert_price;
+                } else {
+                    $cost = $check_cost;
+                    $price = $check_price;
                 }
 
                 // calculate total profit (price * qty) for current row (item)
