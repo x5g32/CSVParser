@@ -99,7 +99,7 @@ include('FileProcessor.php');
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>Average Cost<br />$0.00</td>
                     <td>Average Price<br />$0.00</td>
                     <td>Total Quantity<br />##</td>
                     <td>Average Profit Margin<br />0.00%</td>
