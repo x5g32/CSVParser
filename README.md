@@ -8,7 +8,8 @@ The script functions on the following stipulations:
 - The file may contain any or no other data
 
 The script will output a table with the following statistics included:
-- Average Price, Total Quantity, Average Profit Margin, and Total Profit
+- Profit Margin and Total Profit per item
+- Average Cost, Average Price, Total Quantity, Average Profit Margin, and Total Profit
 
 The script will also convert all currency values to a user specified currency.
 In this implementation, the html form provides only two options: USD or CAD.
