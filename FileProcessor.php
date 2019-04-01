@@ -25,7 +25,7 @@ class FileProcessor {
     public  $filepath;
     private $file;
     private $cols;
-    private $rows;
+    public $rows;
     private $header;
     private $currency;
     private $stats = array();
@@ -126,12 +126,17 @@ class FileProcessor {
     // method for setting number of rows and cols
     // ****************************************************************
     private function setRowsCols() {
+
+        // get the number of columns
         $this->cols = count($this->header);
-        $rowcount = 1;
+
+        // get the number of rows (not including the header)
+        $rowcount = 0;
         while((fgetcsv($this->file,0,",")) !== FALSE) {
             $rowcount++;
         }
-        $this->rows = $rowcount;
+        $rows = $rowcount - 1;
+        $this->rows = $rows;
 
         // reset the file pointer
         fseek($this->file,0);
