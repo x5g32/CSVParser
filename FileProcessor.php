@@ -25,7 +25,7 @@ class FileProcessor {
     public  $filepath;
     private $file;
     private $cols;
-    public $rows;
+    private $rows;
     private $header;
     private $currency;
     private $stats = array();
