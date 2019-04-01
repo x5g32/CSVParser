@@ -89,11 +89,11 @@ class FileProcessor {
         // get the header array to check
         $refheader = $this->header;
 
-        // change header values to uppercase
-        function toUpper(&$value,$key) {
-            $value = strtoupper($value);
+        // change header values to uppercase and trim whitespace
+        function normValue(&$value,$key) {
+            $value = strtoupper(trim($value));
         }
-        array_walk($refheader,'toUpper');
+        array_walk($refheader,'normValue');
 
         // look for specific header values and set them
         if(in_array('SKU',$refheader,true)) {
