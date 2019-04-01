@@ -254,7 +254,7 @@ class FileProcessor {
         $this->stats['Avg Profit Margin'] = number_format(round(($pm_sum / $this->rows),2),2);
 
         // calc total cost and put into stats array
-        $this->stats['Total Cost'] = $cost_sum;
+        $this->stats['Total Cost'] = number_format($cost_sum,2);
 
         // calc average cost and put into stats array
         $this->stats['Average Cost'] = number_format(round(($cost_sum / $this->rows),2),2);
@@ -425,7 +425,7 @@ class FileProcessor {
         }
 
         // add total profit summed from all rows to stats array
-        $this->stats['Total Profit'] = $profit_sum;
+        $this->stats['Total Profit'] = number_format($profit_sum,2);
 
         // reset the file pointer
         fseek($this->file,0);
