@@ -206,30 +206,11 @@ class FileProcessor {
         // look at each row and build some stats
         while(($row = fgetcsv($this->file,0,",")) !== FALSE) {
 
-            // validate cost, price, and qty
-            $check_cost = $row[$this->costID];
-            $check_price = $row[$this->priceID];
-            $check_qty = $row[$this->qtyID];
-            if(!is_numeric($check_cost)) {
-                $check_cost = 0;
-            }
-            if(!is_numeric($check_price)) {
-                $check_price = 0;
-            }
-            if(!is_numeric($check_qty)) {
-                $check_qty = 0;
-            }
-
-            // convert currency for cost and price
-            if($this->currency !== 'USD') {
-                $cost = round($this->convCurrency($check_cost),2);
-                $price = round($this->convCurrency($check_price),2);
-                $qty = round($this->convCurrency($check_qty),2);
-            } else {
-                $cost = $check_cost;
-                $price = $check_price;
-                $qty = $check_qty;                 
-            }
+            // the checkValues method validates the numbers and converts currency if necessary
+            $values = $this->checkValues($row[$this->costID],$row[$this->priceID],$row[$this->qtyID]);
+            $cost = $values['cost'];
+            $price = $values['price'];
+            $qty = $values['qty'];
 
             // sum all the cost values
             $cost_sum += $cost;
@@ -282,6 +263,33 @@ class FileProcessor {
         $total_profit = $price * $qty;
         $profit_margin = ($total_profit - $total_cost) / 100;
         return $profit_margin;
+    }
+
+    // ****************************************************************
+    // method for validating cost, price, and qantity
+    // ****************************************************************
+    protected function checkValues($cost,$price,$qty) {
+
+        // check if the value is a number, if not, make it 0
+        if(!is_numeric($cost)) {
+            $cost = 0;
+        }
+        if(!is_numeric($price)) {
+            $price = 0;
+        }
+        if(!is_numeric($qty)) {
+            $qty = 0;
+        }
+
+        // convert currency if necessary
+        if($this->currency !== 'USD') {
+            $convert_cost = $this->convCurrency($cost);
+            $convert_price = $this->convCurrency($price);
+            $cost = $convert_cost;
+            $price = $convert_price;
+        }
+
+        return array('cost'=>$cost,'price'=>$price,'qty'=>$qty);
     }
 
 
@@ -344,32 +352,11 @@ class FileProcessor {
             // skip the header (which is the first row)
             if($rowid !== 0) {
 
-                // get and validate some info from the current row
-                $check_cost = $row[$this->costID];
-                $check_price = $row[$this->priceID];
-                $check_qty = $row[$this->qtyID];
-
-                if(!is_numeric($check_cost)) {
-                    $check_cost = 0;
-                }
-                if(!is_numeric($check_price)) {
-                    $check_price = 0;
-                }
-                if(!is_numeric($check_qty)) {
-                    $qty = 0;
-                } else {
-                    $qty = $check_qty;
-                }
-
-                if($this->currency !== 'USD') {
-                    $convert_cost = $this->convCurrency($check_cost);
-                    $convert_price = $this->convCurrency($check_price);
-                    $cost = $convert_cost;
-                    $price = $convert_price;
-                } else {
-                    $cost = $check_cost;
-                    $price = $check_price;
-                }
+                // the checkValues method validates the numbers and converts currency if necessary
+                $values = $this->checkValues($row[$this->costID],$row[$this->priceID],$row[$this->qtyID]);
+                $cost = $values['cost'];
+                $price = $values['price'];
+                $qty = $values['qty'];
 
                 // calculate total profit (price * qty) for current row (item)
                 $total_profit = round(($price * $qty),2);
