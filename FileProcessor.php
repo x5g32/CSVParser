@@ -200,7 +200,7 @@ class FileProcessor {
     // ****************************************************************
     // method for getting the average cost, average price,
     // total quantity, average profit margin, and total profit
-    // stats are returned as an array
+    // stats are saved in a class property array
     // ****************************************************************
     private function setStats() {
         $cost_sum = 0;
