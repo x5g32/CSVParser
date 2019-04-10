@@ -136,6 +136,11 @@ class FileProcessor {
             $rowcount++;
         }
         $rows = $rowcount - 1;
+
+        // if no rows are in the file
+        if($rows == 0) {
+            $rows++;
+        }
         $this->rows = $rows;
 
         // reset the file pointer
