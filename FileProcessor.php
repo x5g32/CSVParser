@@ -270,6 +270,7 @@ class FileProcessor {
         return $profit_margin;
     }
 
+    
     // ****************************************************************
     // method for validating cost, price, and qantity
     // ****************************************************************
